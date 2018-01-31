@@ -1,15 +1,15 @@
-package rvsoftlab.net.kanoon.login;
+package com.rvsoftlab.kanoon.login;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import rvsoftlab.net.kanoon.R;
+import com.rvsoftlab.kanoon.R;
 
-public class SplashActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_login);
     }
 }

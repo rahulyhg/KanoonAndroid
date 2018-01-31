@@ -1,4 +1,4 @@
-package rvsoftlab.net.kanoon;
+package com.rvsoftlab.kanoon;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

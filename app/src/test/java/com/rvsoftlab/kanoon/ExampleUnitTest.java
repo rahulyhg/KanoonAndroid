@@ -1,4 +1,4 @@
-package rvsoftlab.net.kanoon;
+package com.rvsoftlab.kanoon;
 
 import org.junit.Test;
 
