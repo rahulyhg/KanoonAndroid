@@ -6,4 +6,71 @@
     android:layout_height="match_parent"
     tools:context="com.rvsoftlab.kanoon.login.LoginActivity">
 
+    <!--<TextView
+        android:id="@+id/txt_hi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/medium_xml"
+        android:text="Hi"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_lbl"
+        android:layout_width="match_parent"
+        android:layout_height="17dp"
+        android:fontFamily="@font/questrial_regular"
+        android:text="Just Enter Your Mobile And Get Started"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/txt_hi"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/txt_lbl"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/light_xml"
+            android:text="Enter Mobile Number"
+            android:textAlignment="center"
+            android:textSize="12sp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textAlignment="center"
+            android:fontFamily="@font/questrial_regular"
+            android:textColor="@color/colorAccent"
+            android:maxLength="10"
+            android:inputType="number"
+            android:layout_marginTop="2dp"
+            android:textSize="20sp"
+            android:letterSpacing="0.3"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorForeground"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:fontFamily="@font/questrial_regular"
+        android:text="NEXT"
+        android:textColor="@color/colorBlack"
+        android:letterSpacing="0.3"
+        app:layout_constraintBottom_toTopOf="parent"/>-->
+
 </android.support.constraint.ConstraintLayout>
