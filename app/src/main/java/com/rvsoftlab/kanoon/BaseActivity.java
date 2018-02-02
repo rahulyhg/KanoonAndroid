@@ -12,6 +12,7 @@ import com.rvsoftlab.kanoon.helper.ProgressDialog;
 
 public abstract class BaseActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
+    public static final String TAG = "KANOON";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

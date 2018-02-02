@@ -39,7 +39,8 @@ dependencies {
     // HTTP Client
     compile 'com.loopj.android:android-async-http:1.4.9'
 
-    // OTP EditText
-    compile 'com.github.mukeshsolanki:android-otpview-pinview:1.0.4'
+    // Circular Image
+    compile 'de.hdodenhof:circleimageview:2.2.0'
+
 }
 apply plugin: 'com.google.gms.google-services'
