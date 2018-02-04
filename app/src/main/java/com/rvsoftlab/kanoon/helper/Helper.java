@@ -1,10 +1,14 @@
 package com.rvsoftlab.kanoon.helper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by RVishwakarma on 2/2/2018.
@@ -47,5 +51,20 @@ public class Helper {
         }
 
         return false;
+    }
+
+    public static boolean isResponseOk(Activity activity, JSONObject response){
+        boolean isOk;
+        try {
+            if (response.getBoolean("success")){
+                isOk = true;
+            }else {
+                isOk = false;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            isOk = false;
+        }
+        return isOk;
     }
 }

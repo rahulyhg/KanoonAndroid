@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.rvsoftlab.kanoon.R;
+import com.rvsoftlab.kanoon.home.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -19,7 +20,8 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(this,LoginActivity.class));
             finish();
         }else {
-            Toast.makeText(this, mAuth.getUid(), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,MainActivity.class));
+            finish();
         }
     }
 }

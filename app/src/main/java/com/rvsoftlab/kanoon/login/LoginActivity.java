@@ -2,6 +2,8 @@ package com.rvsoftlab.kanoon.login;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -20,6 +22,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -28,11 +39,17 @@ import com.rvsoftlab.kanoon.BaseActivity;
 import com.rvsoftlab.kanoon.R;
 import com.rvsoftlab.kanoon.adapter.ViewPagerItemAdapter;
 import com.rvsoftlab.kanoon.helper.Constant;
+import com.rvsoftlab.kanoon.helper.Helper;
+import com.rvsoftlab.kanoon.home.MainActivity;
 import com.rvsoftlab.kanoon.smsverifycatcher.OnSmsCatchListener;
 import com.rvsoftlab.kanoon.smsverifycatcher.SmsVerifyCatcher;
 import com.rvsoftlab.kanoon.views.PinEditText;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -56,6 +73,10 @@ public class LoginActivity extends BaseActivity {
     private EditText editUserName;
 
     private AsyncHttpClient httpClient;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +157,9 @@ public class LoginActivity extends BaseActivity {
 
         userImage = findViewById(R.id.user_image);
         editUserName = findViewById(R.id.edit_user_name);
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         //endregion
 
         //region LISTENERS
@@ -203,8 +227,7 @@ public class LoginActivity extends BaseActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 hideProgress();
                 Log.d(TAG,response.toString());
-                showProgress(false);
-                viewPager.setCurrentItem(1);
+                parseStepOne(response);
             }
 
             @Override
@@ -214,6 +237,23 @@ public class LoginActivity extends BaseActivity {
                 showProgress(true);
             }
         });
+    }
+
+    private void parseStepOne(JSONObject response) {
+        try {
+            if (response.getBoolean("success")){
+                JSONObject res = response.optJSONObject("response");
+                String mobile = res.getString("mobile");
+                boolean isExist = res.getBoolean("isExists");
+
+                txtMobile.setText("+91-"+mobile);
+                viewPager.setCurrentItem(1);
+            }else {
+                Toast.makeText(mActivity, response.optString("error"), Toast.LENGTH_SHORT).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean isStepOneOk() {
@@ -253,13 +293,93 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (viewPager.getCurrentItem()==1){
-
+                    verifyMobile();
                 }else if (viewPager.getCurrentItem()==2){
-
+                    setupUsername();
                 }
             }
         });
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void verifyMobile() {
+        RequestParams param = new RequestParams();
+        param.put("tag","verify");
+        param.put("mobile",editMobile.getText().toString());
+        param.put("code",editOtp.getText().toString());
+        param.put("username",editMobile.getText().toString());
+        httpClient.post(Constant.API,param,new JsonHttpResponseHandler(){
+            @Override
+            public void onStart() {
+                super.onStart();
+                showProgress();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                //hideProgress();
+                Log.d(TAG,response.toString());
+                if (Helper.isResponseOk(mActivity,response)){
+                    try {
+                        JSONObject obj = response.getJSONObject("response");
+                        String token = obj.getString("token");
+                        signInWithFirebase(token);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                hideProgress();
+            }
+        });
+    }
+
+    private void signInWithFirebase(String token) {
+        mAuth.signInWithCustomToken(token).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    hideProgress();
+                    viewPager.setCurrentItem(2);
+                }else {
+                    task.getException().printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void setupUsername() {
+        final CollectionReference users = db.collection("users");
+        Query query = users.whereEqualTo("username",editUserName.getText().toString());
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.getResult().getDocuments().size()>0){
+                    editUserName.setError("Username already exist please choose another ");
+                }else {
+                    Map<String,Object> user = new HashMap<>();
+                    user.put("username",editUserName.getText().toString());
+                    user.put("mobile",editMobile.getText().toString());
+                    user.put("auth",mAuth.getUid());
+                    user.put("token", FirebaseInstanceId.getInstance().getToken());
+                    users.document(editMobile.getText().toString()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                startActivity(new Intent(mActivity, MainActivity.class));
+                                finish();
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
     }
 
 
