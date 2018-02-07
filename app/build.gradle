@@ -42,5 +42,8 @@ dependencies {
     // Circular Image
     compile 'de.hdodenhof:circleimageview:2.2.0'
 
+    // Camera View
+    compile 'com.otaliastudios:cameraview:1.4.1'
+
 }
 apply plugin: 'com.google.gms.google-services'

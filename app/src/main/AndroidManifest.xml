@@ -28,14 +28,17 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".home.MainActivity"></activity>
+        <activity android:name=".home.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoAppbarAppTheme"/>
     </application>
 
 </manifest>

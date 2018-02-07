@@ -64,6 +64,7 @@ public class SmsVerifyCatcher {
             @Override
             public void onPermissionGranted() {
                 isGranted[0] = true;
+                registerReceiver();
             }
 
             @Override

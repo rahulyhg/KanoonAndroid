@@ -13,6 +13,7 @@ public class SessionManager {
     private int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "knpref";
     private Context _contex;
+    private final String USERNAME = "username";
 
     public SessionManager(Context context){
         _contex = context;
@@ -28,4 +29,14 @@ public class SessionManager {
     public boolean getPermissionStatus(String permission){
         return pref.getBoolean(permission,false);
     }
+
+    public void setIsUsernameSet(boolean isUsernameSet){
+        editor.putBoolean(USERNAME,isUsernameSet);
+        editor.apply();
+    }
+
+    public boolean isUsernameSet(){
+        return pref.getBoolean(USERNAME,false);
+    }
 }
+

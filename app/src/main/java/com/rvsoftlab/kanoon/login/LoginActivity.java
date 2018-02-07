@@ -27,6 +27,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,6 +42,8 @@ import com.rvsoftlab.kanoon.R;
 import com.rvsoftlab.kanoon.adapter.ViewPagerItemAdapter;
 import com.rvsoftlab.kanoon.helper.Constant;
 import com.rvsoftlab.kanoon.helper.Helper;
+import com.rvsoftlab.kanoon.helper.SQLIteHelper;
+import com.rvsoftlab.kanoon.helper.SessionManager;
 import com.rvsoftlab.kanoon.home.MainActivity;
 import com.rvsoftlab.kanoon.smsverifycatcher.OnSmsCatchListener;
 import com.rvsoftlab.kanoon.smsverifycatcher.SmsVerifyCatcher;
@@ -77,6 +81,8 @@ public class LoginActivity extends BaseActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+    private SessionManager session;
+    private SQLIteHelper sqlIteHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,6 +166,9 @@ public class LoginActivity extends BaseActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        session = new SessionManager(this);
+        sqlIteHelper = new SQLIteHelper(this);
         //endregion
 
         //region LISTENERS
@@ -184,6 +193,15 @@ public class LoginActivity extends BaseActivity {
             }
         });
         //endregion
+
+        if (!session.isUsernameSet() && !TextUtils.isEmpty(sqlIteHelper.getMobile())){
+            viewPager.post(new Runnable() {
+                @Override
+                public void run() {
+                    viewPager.setCurrentItem(2);
+                }
+            });
+        }
     }
 
     private void showProgress(boolean isCancel) {
@@ -288,18 +306,41 @@ public class LoginActivity extends BaseActivity {
 
         MenuItem nextItem = menu.findItem(R.id.action_next);
         View nextView = nextItem.getActionView();
-        Button next = nextView.findViewById(R.id.btn_next);
+        final Button next = nextView.findViewById(R.id.btn_next);
+        final ProgressBar prgNext = nextView.findViewById(R.id.prg_next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (viewPager.getCurrentItem()==1){
                     verifyMobile();
                 }else if (viewPager.getCurrentItem()==2){
-                    setupUsername();
+                    setupUsername(next,prgNext);
                 }
             }
         });
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_login,menu);
+        toolMenu = menu;
+        toolMenu.findItem(R.id.action_next).setVisible(false);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    //endregion
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        smsVerifyCatcher.onRequestPermissionsResult(requestCode,permissions,grantResults);
     }
 
     private void verifyMobile() {
@@ -324,6 +365,8 @@ public class LoginActivity extends BaseActivity {
                     try {
                         JSONObject obj = response.getJSONObject("response");
                         String token = obj.getString("token");
+                        String mobile = obj.getString("mobile");
+                        sqlIteHelper.addMobile(mobile);
                         signInWithFirebase(token);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -344,8 +387,10 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    hideProgress();
-                    viewPager.setCurrentItem(2);
+                    /*hideProgress();
+                    viewPager.setCurrentItem(2);*/
+
+                    checkForUsername();
                 }else {
                     task.getException().printStackTrace();
                 }
@@ -353,55 +398,72 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void setupUsername() {
-        final CollectionReference users = db.collection("users");
-        Query query = users.whereEqualTo("username",editUserName.getText().toString());
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void checkForUsername(){
+        DocumentReference ref = db.collection("users").document(sqlIteHelper.getMobile());
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.getResult().getDocuments().size()>0){
-                    editUserName.setError("Username already exist please choose another ");
-                }else {
-                    Map<String,Object> user = new HashMap<>();
-                    user.put("username",editUserName.getText().toString());
-                    user.put("mobile",editMobile.getText().toString());
-                    user.put("auth",mAuth.getUid());
-                    user.put("token", FirebaseInstanceId.getInstance().getToken());
-                    users.document(editMobile.getText().toString()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
-                                startActivity(new Intent(mActivity, MainActivity.class));
-                                finish();
-                            }
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                hideProgress();
+                if (task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if (document!=null && document.exists()){
+                        Map<String,Object> data = task.getResult().getData();
+                        Log.d(TAG,""+data);
+                        if (data.containsKey("username")){
+                            startActivity(new Intent(mActivity, MainActivity.class));
+                            finish();
+                            session.setIsUsernameSet(true);
+                        }else {
+                            viewPager.setCurrentItem(2);
                         }
-                    });
-
+                    }else {
+                        viewPager.setCurrentItem(2);
+                    }
+                }else {
+                    Toast.makeText(mActivity, "Something Went wrong, please try again", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    private void setupUsername(final Button next, final ProgressBar prgNext) {
+        if (!TextUtils.isEmpty(editUserName.getText().toString())){
+            final CollectionReference users = db.collection("users");
+            Query query = users.whereEqualTo("username",editUserName.getText().toString());
+            next.setVisibility(View.INVISIBLE);
+            prgNext.setVisibility(View.VISIBLE);
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.getResult().getDocuments().size()>0){
+                        editUserName.setError("Username already exist please choose another ");
+                        next.setVisibility(View.VISIBLE);
+                        prgNext.setVisibility(View.GONE);
+                    }else {
+                        Map<String,Object> user = new HashMap<>();
+                        user.put("username",editUserName.getText().toString());
+                        user.put("mobile",sqlIteHelper.getMobile());
+                        user.put("auth",mAuth.getUid());
+                        user.put("token", FirebaseInstanceId.getInstance().getToken());
+                        users.document(sqlIteHelper.getMobile()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    startActivity(new Intent(mActivity, MainActivity.class));
+                                    finish();
+                                    session.setIsUsernameSet(true);
+                                }
+                            }
+                        });
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_login,menu);
-        toolMenu = menu;
-        toolMenu.findItem(R.id.action_next).setVisible(false);
-        return super.onCreateOptionsMenu(menu);
+                    }
+                }
+            });
+        }else {
+            editUserName.setError("Please Enter Username");
+            editUserName.requestFocus();
+        }
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        smsVerifyCatcher.onRequestPermissionsResult(requestCode,permissions,grantResults);
-    }
-    //endregion
 
     @Override
     protected void onStart() {

@@ -1,9 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.rvsoftlab.kanoon.views.ViewPagerStatic xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rvsoftlab.kanoon.home.MainActivity">
+    tools:context="com.rvsoftlab.kanoon.home.MainActivity"
+    android:id="@+id/main_view_pager">
+    <!--Main Page-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_view">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            android:layout_alignParentTop="true"/>
+        <com.rvsoftlab.kanoon.views.ViewPagerStatic
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="502dp"
+            android:layout_below="@id/toolbar"
+            android:layout_above="@id/bottom_navigation"/>
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.design.widget.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_navigation"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+    <!--Camera on right-->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/camera_view">
+        <com.otaliastudios.cameraview.CameraView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:keepScreenOn="true"
+            app:cameraPlaySounds="false"
+            app:cameraGrid="off"
+            app:cameraFacing="back"
+            app:cameraFlash="auto"
+            app:cameraAudio="on"
+            app:cameraGestureTap="focusWithMarker"
+            app:cameraGestureLongTap="none"
+            app:cameraGesturePinch="zoom"
+            app:cameraJpegQuality="100"
+            app:cameraSessionType="picture"
+            android:id="@+id/camera_preview"/>
+    </android.support.constraint.ConstraintLayout>
+</com.rvsoftlab.kanoon.views.ViewPagerStatic>
