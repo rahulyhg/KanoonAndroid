@@ -11,23 +11,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/main_view">
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:layout_alignParentTop="true"/>
         <com.rvsoftlab.kanoon.views.ViewPagerStatic
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="502dp"
-            android:layout_below="@id/toolbar"
+            android:layout_alignParentTop="true"
             android:layout_above="@id/bottom_navigation"/>
 
-        <android.support.design.widget.BottomNavigationView
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/bottom_navigation"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true">
+
+            <!--<net.soulwolf.widget.materialradio.MaterialRadioButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:mcAnimator="true"
+                app:mcButton="@drawable/ic_add"
+                app:mcTextColor="@color/colorAccent"
+                android:id="@+id/nav_home"/>
+
+            <net.soulwolf.widget.materialradio.MaterialRadioButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:mcAnimator="true"
+                app:mcButton="@drawable/ic_add"
+                app:mcTextColor="@color/colorAccent"
+                app:layout_constraintStart_toEndOf="@id/nav_home"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:id="@+id/nav_news"/>
+
+            <net.soulwolf.widget.materialradio.MaterialRadioButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/nav_news"
+                app:layout_constraintTop_toTopOf="parent"
+                app:mcAnimator="true"
+                app:mcButton="@drawable/ic_add"
+                app:mcTextColor="@color/colorAccent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:id="@+id/nav_ai"/>-->
+
+        </android.support.constraint.ConstraintLayout>
+
     </RelativeLayout>
 
     <!--Camera on right-->

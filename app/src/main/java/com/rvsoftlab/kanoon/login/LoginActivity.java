@@ -251,7 +251,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 hideProgress();
-                Log.d(TAG,errorResponse.toString());
+                //Log.d(TAG,errorResponse.toString());
                 showProgress(true);
             }
         });

@@ -37,8 +37,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoAppbarAppTheme"/>
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
