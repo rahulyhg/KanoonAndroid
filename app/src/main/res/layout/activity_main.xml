@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.rvsoftlab.kanoon.views.ViewPagerStatic xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,57 +18,32 @@
             android:layout_alignParentTop="true"
             android:layout_above="@id/bottom_navigation"/>
 
-        <android.support.constraint.ConstraintLayout
+        <com.rvsoftlab.kanoon.materialradio.MaterialRadioGroup
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:id="@+id/bottom_navigation"
-            android:layout_alignParentBottom="true">
-
-            <!--<net.soulwolf.widget.materialradio.MaterialRadioButton
+            android:layout_alignParentBottom="true"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <com.rvsoftlab.kanoon.materialradio.MaterialRadioButton
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:mcAnimator="true"
-                app:mcButton="@drawable/ic_add"
-                app:mcTextColor="@color/colorAccent"
-                android:id="@+id/nav_home"/>
-
-            <net.soulwolf.widget.materialradio.MaterialRadioButton
+                android:layout_marginStart="8dp"
+                android:id="@+id/nav_home"
+                app:mcButton="@drawable/ic_edit"
+                app:mcTextColor="@color/colorAccent"/>
+            <com.rvsoftlab.kanoon.materialradio.MaterialRadioButton
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:mcAnimator="true"
+                app:layout_constraintStart_toStartOf="@id/nav_home"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="parent"
                 app:mcButton="@drawable/ic_add"
                 app:mcTextColor="@color/colorAccent"
-                app:layout_constraintStart_toEndOf="@id/nav_home"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:id="@+id/nav_news"/>
-
-            <net.soulwolf.widget.materialradio.MaterialRadioButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/nav_news"
-                app:layout_constraintTop_toTopOf="parent"
-                app:mcAnimator="true"
-                app:mcButton="@drawable/ic_add"
-                app:mcTextColor="@color/colorAccent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:id="@+id/nav_ai"/>-->
-
-        </android.support.constraint.ConstraintLayout>
+        </com.rvsoftlab.kanoon.materialradio.MaterialRadioGroup>
 
     </RelativeLayout>
 
@@ -76,7 +51,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/camera_view">
+        android:id="@+id/camera_view"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
         <com.otaliastudios.cameraview.CameraView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

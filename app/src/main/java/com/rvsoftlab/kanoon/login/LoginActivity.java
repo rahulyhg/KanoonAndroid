@@ -194,14 +194,14 @@ public class LoginActivity extends BaseActivity {
         });
         //endregion
 
-        if (!session.isUsernameSet() && !TextUtils.isEmpty(sqlIteHelper.getMobile())){
+        /*if (!session.isUsernameSet() && !TextUtils.isEmpty(sqlIteHelper.getMobile())){
             viewPager.post(new Runnable() {
                 @Override
                 public void run() {
                     viewPager.setCurrentItem(2);
                 }
             });
-        }
+        }*/
     }
 
     private void showProgress(boolean isCancel) {

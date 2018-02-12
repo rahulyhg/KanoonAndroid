@@ -32,6 +32,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.8.0'
     compile 'com.google.firebase:firebase-firestore:11.8.0'
     compile 'com.google.firebase:firebase-storage:11.8.0'
+    compile 'com.firebaseui:firebase-ui-firestore:3.2.1'
 
     // Lottie
     compile 'com.airbnb.android:lottie:2.3.0'
@@ -45,8 +46,7 @@ dependencies {
     // Camera View
     compile 'com.otaliastudios:cameraview:1.4.1'
 
-    // Raido Button
-    //compile 'net.soulwolf.widget:materialRadio:1.0.1'
+    compile 'com.nineoldandroids:library:2.4.0'
 
 }
 apply plugin: 'com.google.gms.google-services'

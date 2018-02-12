@@ -19,7 +19,7 @@ import com.rvsoftlab.kanoon.adapter.ViewPagerItemAdapter;
 public class MainActivity extends BaseActivity {
     private ViewPager viewPager;
     private ViewPager mainViewPager;
-    private BottomNavigationView navigation;
+    //private BottomNavigationView navigation;
     private ViewPagerFragmentAdapter pagerAdapter;
     private ViewPagerItemAdapter itemAdapter;
     @Override
@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
         //region VARIABLE DECLARATION
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(3);
-        navigation = findViewById(R.id.bottom_navigation);
+       //navigation = findViewById(R.id.bottom_navigation);
 
         mainViewPager = findViewById(R.id.main_view_pager);
         viewPager.setOffscreenPageLimit(1);
