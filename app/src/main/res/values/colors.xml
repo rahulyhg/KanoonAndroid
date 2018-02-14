@@ -10,6 +10,8 @@
     <color name="colorBlack">#000</color>
     <color name="colorWhite">#fff</color>
     <color name="colorGray">#ccc</color>
+    <color name="colorLightGray">#efeded</color>
+    <color name="colorDarkGray">#75000000</color>
     <color name="colorRed">#EE1149</color>
     <color name="colorGreen">#25AE88</color>
     <color name="colorDialogBackground">#97ffffff</color>

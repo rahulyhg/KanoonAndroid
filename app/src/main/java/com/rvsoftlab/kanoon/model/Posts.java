@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class Posts {
+    private String uuid;
     private User user;
     private int likes;
     private List<Comments> comments;
@@ -17,12 +18,21 @@ public class Posts {
         comments = new ArrayList<>();
     }
 
-    public Posts(User user, int likes, List<Comments> comments, String imgUrl) {
+    public Posts(String uuid, User user, int likes, List<Comments> comments, String imgUrl) {
+        this.uuid = uuid;
         comments = new ArrayList<>();
         this.user = user;
         this.likes = likes;
         this.comments = comments;
         this.imgUrl = imgUrl;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public User getUser() {
