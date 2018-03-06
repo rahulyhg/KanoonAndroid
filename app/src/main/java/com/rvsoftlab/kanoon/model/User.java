@@ -5,79 +5,49 @@ package com.rvsoftlab.kanoon.model;
  */
 
 public class User {
-    private String name;
-    private String username;
-    private String imgUrl;
-    private String posts;
-    private String followers;
-    private String following;
-    private String mobile;
+    private String uuid;
+    private String userName;
+    private String userMobile;
+    private String userImg;
 
-    public User(){}
+    public User(){};
 
-    public User(String name, String username, String imgUrl, String posts, String followers, String following, String mobile) {
-        this.name = name;
-        this.username = username;
-        this.imgUrl = imgUrl;
-        this.posts = posts;
-        this.followers = followers;
-        this.following = following;
-        this.mobile = mobile;
+    public User(String uuid, String userName, String userMobile, String userImg) {
+        this.uuid = uuid;
+        this.userName = userName;
+        this.userMobile = userMobile;
+        this.userImg = userImg;
     }
 
-    public String getName() {
-        return name;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getUserMobile() {
+        return userMobile;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setUserMobile(String userMobile) {
+        this.userMobile = userMobile;
     }
 
-    public String getPosts() {
-        return posts;
+    public String getUserImg() {
+        return userImg;
     }
 
-    public void setPosts(String posts) {
-        this.posts = posts;
-    }
-
-    public String getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(String followers) {
-        this.followers = followers;
-    }
-
-    public String getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(String following) {
-        this.following = following;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setUserImg(String userImg) {
+        this.userImg = userImg;
     }
 }

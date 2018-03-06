@@ -9,22 +9,25 @@ import java.util.List;
 
 public class Posts {
     private String uuid;
-    private User user;
+    private String postType;
+    private String url;
+    private String postVisibility;
+    private String caption;
     private int likes;
-    private List<Comments> comments;
-    private String imgUrl;
+    private int comments;
+    private User user;
 
-    public Posts(){
-        comments = new ArrayList<>();
-    }
+    public Posts(){}
 
-    public Posts(String uuid, User user, int likes, List<Comments> comments, String imgUrl) {
+    public Posts(String uuid, String postType, String url, String postVisibility, String caption, int likes, int comments, User user) {
         this.uuid = uuid;
-        comments = new ArrayList<>();
-        this.user = user;
+        this.postType = postType;
+        this.url = url;
+        this.postVisibility = postVisibility;
+        this.caption = caption;
         this.likes = likes;
         this.comments = comments;
-        this.imgUrl = imgUrl;
+        this.user = user;
     }
 
     public String getUuid() {
@@ -35,12 +38,36 @@ public class Posts {
         this.uuid = uuid;
     }
 
-    public User getUser() {
-        return user;
+    public String getPostType() {
+        return postType;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPostType(String postType) {
+        this.postType = postType;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getPostVisibility() {
+        return postVisibility;
+    }
+
+    public void setPostVisibility(String postVisibility) {
+        this.postVisibility = postVisibility;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     public int getLikes() {
@@ -51,19 +78,19 @@ public class Posts {
         this.likes = likes;
     }
 
-    public List<Comments> getComments() {
+    public int getComments() {
         return comments;
     }
 
-    public void setComments(List<Comments> comments) {
+    public void setComments(int comments) {
         this.comments = comments;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public User getUser() {
+        return user;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

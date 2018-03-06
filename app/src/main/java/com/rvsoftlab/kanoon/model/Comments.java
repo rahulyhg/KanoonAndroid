@@ -5,31 +5,59 @@ package com.rvsoftlab.kanoon.model;
  */
 
 public class Comments {
-    private User user;
-    private String commnets;
+    private String uuid;
+    private String postId;
+    private String userId;
+    private String Comment;
+    private String timestamp;
 
-    public Comments(){
+    public Comments(){}
 
+    public Comments(String uuid, String postId, String userId, String comment, String timestamp) {
+        this.uuid = uuid;
+        this.postId = postId;
+        this.userId = userId;
+        Comment = comment;
+        this.timestamp = timestamp;
     }
 
-    public Comments(User user, String commnets) {
-        this.user = user;
-        this.commnets = commnets;
+    public String getUuid() {
+        return uuid;
     }
 
-    public User getUser() {
-        return user;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public String getPostId() {
+        return postId;
     }
 
-    public String getCommnets() {
-        return commnets;
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
-    public void setCommnets(String commnets) {
-        this.commnets = commnets;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getComment() {
+        return Comment;
+    }
+
+    public void setComment(String comment) {
+        Comment = comment;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }
