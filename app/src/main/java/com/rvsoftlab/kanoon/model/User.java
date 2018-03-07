@@ -10,7 +10,7 @@ public class User {
     private String userMobile;
     private String userImg;
 
-    public User(){};
+    public User(){}
 
     public User(String uuid, String userName, String userMobile, String userImg) {
         this.uuid = uuid;

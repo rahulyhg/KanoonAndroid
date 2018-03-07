@@ -1,5 +1,7 @@
 package com.rvsoftlab.kanoon.model;
 
+import com.rvsoftlab.kanoon.helper.Constant;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,5 +94,9 @@ public class Posts {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getViewType(){
+        return  (getPostType().equalsIgnoreCase("image")) ? Constant.VIEW_TYPE.IMAGE_POSTS : Constant.VIEW_TYPE.VIDEO_POST;
     }
 }

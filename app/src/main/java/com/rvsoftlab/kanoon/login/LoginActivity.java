@@ -45,6 +45,7 @@ import com.rvsoftlab.kanoon.helper.Helper;
 import com.rvsoftlab.kanoon.helper.SQLIteHelper;
 import com.rvsoftlab.kanoon.helper.SessionManager;
 import com.rvsoftlab.kanoon.home.MainActivity;
+import com.rvsoftlab.kanoon.model.User;
 import com.rvsoftlab.kanoon.smsverifycatcher.OnSmsCatchListener;
 import com.rvsoftlab.kanoon.smsverifycatcher.SmsVerifyCatcher;
 import com.rvsoftlab.kanoon.views.PinEditText;
@@ -366,6 +367,8 @@ public class LoginActivity extends BaseActivity {
                         JSONObject obj = response.getJSONObject("response");
                         String token = obj.getString("token");
                         String mobile = obj.getString("mobile");
+                        User user = new User();
+
                         sqlIteHelper.addMobile(mobile);
                         signInWithFirebase(token);
                     } catch (JSONException e) {

@@ -118,7 +118,10 @@ public class HomeFragment extends Fragment {
 
     private void populateListView(List<Posts> posts) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        recyclerView.setAdapter(new PostAdapter(getContext(),posts));
+        List<Object> messageList = new ArrayList<>();
+        messageList.add(Constant.VIEW_TYPE.NEW_POST);
+        messageList.addAll(posts);
+        recyclerView.setAdapter(new PostAdapter(getContext(),messageList));
     }
 
 }
