@@ -52,5 +52,8 @@ dependencies {
     // Glide Image Processor
     compile 'com.github.bumptech.glide:glide:3.7.0'
     //annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+
+    // Image Picker
+    //compile 'com.github.searchy2:CustomRecentImages:2.0'
 }
 apply plugin: 'com.google.gms.google-services'

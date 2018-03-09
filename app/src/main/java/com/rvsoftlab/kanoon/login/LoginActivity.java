@@ -101,6 +101,7 @@ public class LoginActivity extends BaseActivity {
             public void onSmsCatch(String code) {
                 showProgress(true);
                 editOtp.setText(code);
+                verifyMobile();
             }
         });
         smsVerifyCatcher.setPatseExpression("[^0-9]");
