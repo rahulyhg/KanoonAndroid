@@ -87,19 +87,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         imageViewHolder.commentCount.setText("Reaction "+data.getComments());
         setUserImage(imageViewHolder,data);
         if (data.getPostVisibility().equalsIgnoreCase("1")){
-            imageViewHolder.holder.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorDarkGray));
+            imageViewHolder.holder.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
         }
     }
 
-    /*@Override
-    public void onBindViewHolder(ImageViewHolder holder, int position) {
-        Posts data = mPost.get(position);
-        setPostImage(holder,data);
-        holder.postCaption.setText(data.getCaption());
-        holder.userName.setText(data.getUser().getUserName());
-        holder.commentCount.setText("Reaction "+data.getComments());
-        setUserImage(holder,data);
-    }*/
 
     private void setUserImage(ImageViewHolder holder, Posts data) {
         holder.userImg.setAdjustViewBounds(false);
