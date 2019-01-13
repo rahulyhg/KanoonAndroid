@@ -9,12 +9,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.CameraView;
 import com.rvsoftlab.kanoon.BaseActivity;
 import com.rvsoftlab.kanoon.R;
 import com.rvsoftlab.kanoon.adapter.ViewPagerFragmentAdapter;
 import com.rvsoftlab.kanoon.adapter.ViewPagerItemAdapter;
+
+import java.io.File;
 
 public class MainActivity extends BaseActivity {
     private ViewPager viewPager;
@@ -22,6 +28,10 @@ public class MainActivity extends BaseActivity {
     //private BottomNavigationView navigation;
     private ViewPagerFragmentAdapter pagerAdapter;
     private ViewPagerItemAdapter itemAdapter;
+
+
+    private CameraView cameraView;
+    private ImageButton btnCamera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +53,36 @@ public class MainActivity extends BaseActivity {
         mainViewPager = findViewById(R.id.main_view_pager);
         viewPager.setOffscreenPageLimit(1);
         //endregion
+
+        cameraView = findViewById(R.id.camera_preview);
+        btnCamera = findViewById(R.id.btn_camera);
+        cameraView.start();
+
+        cameraView.addCameraListener(new CameraListener() {
+            @Override
+            public void onPictureTaken(byte[] jpeg) {
+                super.onPictureTaken(jpeg);
+                Toast.makeText(MainActivity.this, "Image Taken", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onVideoTaken(File video) {
+                super.onVideoTaken(video);
+            }
+        });
         setupMainViewPager();
         setupViewPager();
+
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cameraView != null) {
+                    cameraView.capturePicture();
+                }
+            }
+        });
     }
 
     private void setupMainViewPager() {
